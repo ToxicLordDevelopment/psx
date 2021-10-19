@@ -1,0 +1,90 @@
+if game.PlaceId == 6284583030 then
+    local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+    local Window = Library.CreateLib("Pet Simulator X", "Serpent")
+    local spawnAreas = {"Town","Forest","Beach","Mine","Winter","Glacier","Desert","Volcano"}
+    local FantasyAreas = {"Enchanted Forest","Ancient","Samurai","Candy","Haunted","Hell","Heaven","Heavens Gate"}
+    local TechAreas = {"Tech","Tech City","Dark Tech","Steampunk"}
+
+
+    function FarmCoin(CoinID, PetID)
+        game.workspace['__THINGS']['__REMOTES']["join coin"]:InvokeServer({[1] = CoinID, [2] = {[1] = PetID}})
+        game.workspace['__THINGS']['__REMOTES']["farm coin"]:FireServer({[1] = CoinID, [2] = PetID})
+    end
+    
+    function GetMyPets()
+        local returntable = {}
+        for i,v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.Inventory.Frame.Main.Pets:GetChildren()) do
+            if v.ClassName == 'TextButton' and v.Equipped.Visible then
+                table.insert(returntable, v.Name)
+            end
+        end
+        return returntable
+    end
+    
+    function GetCoins(world, area)
+        local returntable = {}
+        local ListCoins = game.workspace['__THINGS']['__REMOTES']["get coins"]:InvokeServer({})[1]
+        for i,v in pairs(ListCoins) do
+            if string.lower(v.w) == string.lower(world) and string.lower(v.a) == string.lower(area) then
+                table.insert(returntable, i)
+            end
+        end
+        return returntable
+    end
+
+
+
+
+    local Player = Window:NewTab("Player")
+        
+
+    local PlayerSection = Player:NewSection("Player")
+    local areaDropdown
+    PlayerSection:NewToggle("Air Jump", "Jump like jesus!", function(s)
+        InfiniteJumpEnabled = s
+        game:GetService("UserInputService").JumpRequest:connect(function()
+            if InfiniteJumpEnabled then
+                game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass'Humanoid':ChangeState("Jumping")
+            end
+        end)
+    end)
+
+    
+    local AutoFarm = Window:NewTab("Farming")
+    local AutoFarmSection = AutoFarm:NewSection("AutoFarm ON/OFF")
+    AutoFarmSection:NewToggle("AutoFarm", "AutoFarms Everything", function(s)
+            
+            _G.Stop = not s
+            _G.World = worldChoice
+            _G.Area = areaChoice
+            loadstring(game:HttpGet('https://pastebin.com/raw/tGUJRjqb'))()
+    end)
+
+
+
+
+
+    local AutoFarmSection = AutoFarm:NewSection("AutoFarm Areas")
+    AutoFarmSection:NewDropdown("Worlds","Anti AFK ON",{
+        "Spawn",
+        "Fantasy",
+        "Tech"
+    },function(choice)
+        worldChoice = choice
+        if worldChoice == "Spawn" then
+            areaDropdown:Refresh(spawnAreas)
+        end
+        if worldChoice == "Fantasy" then
+            areaDropdown:Refresh(FantasyAreas)
+        end
+        if worldChoice == "Tech" then
+            areaDropdown:Refresh(TechAreas)
+        end
+    end)
+    areaDropdown = AutoFarmSection:NewDropdown("Areas","All Areas",spawnAreas
+    ,function(choice)
+        areaChoice = choice
+    end)
+
+
+end
