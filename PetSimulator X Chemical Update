@@ -87,6 +87,9 @@ if game.PlaceId == 6284583030 then
     end)
     
     
+local AutoEgg = Window:NewTab("Eggs")
+    
+    
 local A_1 = 
 {
 	[1] = "Chemical Egg", 
