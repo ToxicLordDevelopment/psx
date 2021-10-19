@@ -88,6 +88,7 @@ if game.PlaceId == 6284583030 then
     
     
 local AutoEgg = Window:NewTab("Eggs")
+local AutoFarmSection = AutoFarm:NewSection("Auto Open Egg ON/OFF")
     
     
 local A_1 = 
