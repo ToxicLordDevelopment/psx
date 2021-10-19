@@ -85,6 +85,15 @@ if game.PlaceId == 6284583030 then
     ,function(choice)
         areaChoice = choice
     end)
+    
+    
+local A_1 = 
+{
+	[1] = "Chemical Egg", 
+	[2] = false
+}
+local Event = game:GetService("Workspace")["__THINGS"]["__REMOTES"]["buy egg"]
+Event:InvokeServer(A_1)
 
 
 end
